@@ -6,7 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import java.util.List;
 
@@ -19,6 +23,30 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Add
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        EditText searchEditText = findViewById(R.id.searchEditText);
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() > 0) {
+                    List<Task> tasks = sqLiteHelper.searchInTasks(charSequence.toString());
+                    taskAdapter.setNewTasks(tasks);
+                } else {
+                    List<Task> tasks = sqLiteHelper.getTasks();
+                    taskAdapter.setNewTasks(tasks);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         RecyclerView tasksRv = findViewById(R.id.tasksRecyclerView);
         tasksRv.setAdapter(taskAdapter);
@@ -57,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Add
     }
 
     @Override
-    public void OnDeleteButtonClick(Task task) {
+    public void OnItemDeleteClick(Task task) {
         int result = sqLiteHelper.deleteTask(task);
         if (result > 0) {
             taskAdapter.deleteItem(task);
@@ -71,6 +99,11 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Add
         bundle.putParcelable("task", task);
         dialog.setArguments(bundle);
         dialog.show(getSupportFragmentManager(), null);
+    }
+
+    @Override
+    public void OnItemCheckedChange(Task task) {
+        sqLiteHelper.updateTask(task);
     }
 
     @Override

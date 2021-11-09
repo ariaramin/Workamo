@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -88,7 +89,20 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void searchInTasks() {
-
+    public List<Task> searchInTasks(String query) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM "+TASK_TABLE+" WHERE title LIKE '%"+query+"%'", null);
+        List<Task> tasks = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                Task task = new Task();
+                task.setId(cursor.getLong(0));
+                task.setTitle(cursor.getString(1));
+                task.setCompleted(cursor.getInt(2) == 1);
+                tasks.add(task);
+            } while (cursor.moveToNext());
+        }
+        sqLiteDatabase.close();
+        return tasks;
     }
 }

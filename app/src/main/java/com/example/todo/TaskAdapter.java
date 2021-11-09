@@ -1,9 +1,11 @@
 package com.example.todo;
 
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,6 +73,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         notifyDataSetChanged();
     }
 
+    public void setNewTasks(List<Task> tasks) {
+        this.tasks = tasks;
+        notifyDataSetChanged();
+    }
+
     public class TaskViewHolder extends RecyclerView.ViewHolder {
 
         private CheckBox checkBox;
@@ -84,12 +91,24 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
 
         public void bindTask(Task task) {
+            checkBox.setOnCheckedChangeListener(null);
             checkBox.setChecked(task.isCompleted());
+            setTextLineThrough(checkBox);
             checkBox.setText(task.getTitle());
+
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    task.setCompleted(b);
+                    setTextLineThrough(checkBox);
+                    eventListener.OnItemCheckedChange(task);
+                }
+            });
+
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    eventListener.OnDeleteButtonClick(task);
+                    eventListener.OnItemDeleteClick(task);
                 }
             });
 
@@ -101,10 +120,19 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 }
             });
         }
+
+        private void setTextLineThrough(CheckBox checkBox) {
+            if (checkBox.isChecked()) {
+                checkBox.setPaintFlags(checkBox.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            } else {
+                checkBox.setPaintFlags(checkBox.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            }
+        }
     }
 
     public interface TaskItemEventListener{
-        void OnDeleteButtonClick(Task task);
+        void OnItemDeleteClick(Task task);
         void OnItemLongClick(Task task);
+        void OnItemCheckedChange(Task task);
     }
 }
