@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">برنامه ریزی</string>
-    <string name="splash_screen_title">برنامه ریزی باعث میشود تا آینده را به زمان حال بیاورید و در آن تغییر ایجاد کنید.</string>
     <string name="appbar_title">لیست وظایف</string>
     <string name="search_hint">جستجو...</string>
     <string name="add_task_title">اظافه کردن وظیفه جدید</string>
