@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -88,16 +89,19 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         private final CheckBox checkBox;
         private final View deleteButton;
         private final FrameLayout priority;
+        private final TextView date;
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
 
             checkBox = itemView.findViewById(R.id.taskCheckBox);
             priority = itemView.findViewById(R.id.priority);
+            date = itemView.findViewById(R.id.dateTextView);
             deleteButton = itemView.findViewById(R.id.deleteTaskButton);
         }
 
         public void bindTask(Task task) {
+            date.setText(task.getDate());
             priority.setBackgroundColor(getPriorityColor(task));
             checkBox.setOnCheckedChangeListener(null);
             checkBox.setChecked(task.isCompleted());

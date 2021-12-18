@@ -8,8 +8,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_margin="12dp"
         android:elevation="12dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="12dp"
@@ -18,10 +17,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/taskCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_gravity="end|center_vertical"
+                android:gravity="top"
+                android:layoutDirection="rtl"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                tools:text="تسک" />
+
+            <TextView
+                android:id="@+id/dateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="28dp"
+                android:textColor="@color/grey500"
+                tools:text="تاریخ" />
+        </LinearLayout>
+
         <FrameLayout
             android:id="@+id/priority"
             android:layout_width="6dp"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:layout_gravity="end|center_vertical"
             android:background="@color/colorAccent" />
 
@@ -33,20 +62,6 @@
             android:layout_margin="12dp"
             app:srcCompat="@drawable/ic_delete" />
 
-        <CheckBox
-            android:id="@+id/taskCheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layoutDirection="rtl"
-            android:scaleX="1.1"
-            android:scaleY="1.1"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            tools:text="task" />
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
