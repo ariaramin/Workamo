@@ -1,14 +1,19 @@
-package com.example.todo;
+package com.example.todo.Adapter;
 
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.todo.Database.Task;
+import com.example.todo.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,17 +85,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     public class TaskViewHolder extends RecyclerView.ViewHolder {
 
-        private CheckBox checkBox;
-        private View deleteButton;
+        private final CheckBox checkBox;
+        private final View deleteButton;
+        private final FrameLayout priority;
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
 
             checkBox = itemView.findViewById(R.id.taskCheckBox);
+            priority = itemView.findViewById(R.id.priority);
             deleteButton = itemView.findViewById(R.id.deleteTaskButton);
         }
 
         public void bindTask(Task task) {
+            priority.setBackgroundColor(getPriorityColor(task));
             checkBox.setOnCheckedChangeListener(null);
             checkBox.setChecked(task.isCompleted());
             setTextLineThrough(checkBox);
@@ -119,6 +127,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                     return false;
                 }
             });
+        }
+
+        private int getPriorityColor(Task task) {
+            int taskPriority = task.getPriority();
+            if (taskPriority == 3) {
+                return itemView.getResources().getColor(R.color.colorPrimaryDark);
+            } else if (taskPriority == 2) {
+                return itemView.getResources().getColor(R.color.colorSecondary);
+            }
+            return itemView.getResources().getColor(R.color.yellow);
         }
 
         private void setTextLineThrough(CheckBox checkBox) {

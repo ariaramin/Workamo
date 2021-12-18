@@ -2,8 +2,16 @@
     <string name="app_name">برنامه ریزی</string>
     <string name="appbar_title">لیست وظایف</string>
     <string name="search_hint">جستجو...</string>
-    <string name="add_task_title">اظافه کردن وظیفه جدید</string>
+    <string name="add_task_title">اضافه کردن وظیفه جدید</string>
     <string name="update_task_title">ویرایش وظیفه</string>
     <string name="title_hint">عنوان</string>
+    <string name="priority">الویت</string>
+    <string name="today">امروز</string>
+    <string name="ok">باشه</string>
+    <string name="cancel">بیخیال</string>
+    <string name="normal">عادی</string>
+    <string name="intermediate">متوسط</string>
+    <string name="important">مهم</string>
+    <string name="field_error_text">عنوان نباید خالی باشد!</string>
     <string name="save_task">‌ذخیره</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.todo;
+package com.example.todo.Database;
 
 import android.content.Context;
 
@@ -17,6 +17,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     AppDatabase.class,
                     "db_tasks")
                     .allowMainThreadQueries()
+                    .fallbackToDestructiveMigration()
                     .build();
 
         return appDatabase;

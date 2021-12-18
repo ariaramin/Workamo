@@ -1,23 +1,34 @@
-package com.example.todo;
+package com.example.todo.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.example.todo.Database.AppDatabase;
+import com.example.todo.Dialog.AppDialog;
+import com.example.todo.R;
+import com.example.todo.Database.Task;
+import com.example.todo.Adapter.TaskAdapter;
+import com.example.todo.Database.TaskDao;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AddTaskDialog.AddNewTaskCallback, UpdateTaskDialog.EditTextCallback, TaskAdapter.TaskItemEventListener{
+public class MainActivity extends AppCompatActivity implements AppDialog.TaskDialogListener, TaskAdapter.TaskItemEventListener {
 
+    ImageView starterImageView;
     private TaskDao taskDao;
     private final TaskAdapter taskAdapter = new TaskAdapter(this);
+    private static final int ADD_TASK_DIALOG_ID = 1;
+    private static final int EDIT_TASK_DIALOG_ID = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Add
 
         taskDao = AppDatabase.getAppDatabase(this).getTaskDao();
 
+        starterImageView = findViewById(R.id.starterImageView);
         EditText searchEditText = findViewById(R.id.searchEditText);
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -54,13 +66,19 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Add
         tasksRv.setAdapter(taskAdapter);
         tasksRv.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false));
         List<Task> tasks = taskDao.getTasks();
+        if (tasks.size() != 0) {
+            starterImageView.setVisibility(View.GONE);
+        }
         taskAdapter.addItemList(tasks);
 
         View newTaskButton = findViewById(R.id.addTaskButton);
         newTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddTaskDialog addTaskDialog = new AddTaskDialog();
+                Bundle bundle = new Bundle();
+                bundle.putInt("status", ADD_TASK_DIALOG_ID);
+                AppDialog addTaskDialog = new AppDialog();
+                addTaskDialog.setArguments(bundle);
                 addTaskDialog.show(getSupportFragmentManager(), null);
             }
         });
@@ -78,10 +96,10 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Add
     @Override
     public void OnAddNewTask(Task task) {
         long taskId = taskDao.addTask(task);
-
         if (taskId != -1) {
             task.setId(taskId);
             taskAdapter.addItem(task);
+            starterImageView.setVisibility(View.GONE);
         }
     }
 
@@ -91,13 +109,17 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Add
         if (result > 0) {
             taskAdapter.deleteItem(task);
         }
+        if (taskAdapter.getItemCount() <= 0) {
+            starterImageView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void OnItemLongClick(Task task) {
-        UpdateTaskDialog dialog = new UpdateTaskDialog();
         Bundle bundle = new Bundle();
+        bundle.putInt("status", EDIT_TASK_DIALOG_ID);
         bundle.putParcelable("task", task);
+        AppDialog dialog = new AppDialog();
         dialog.setArguments(bundle);
         dialog.show(getSupportFragmentManager(), null);
     }

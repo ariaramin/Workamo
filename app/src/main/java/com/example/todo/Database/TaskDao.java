@@ -1,4 +1,4 @@
-package com.example.todo;
+package com.example.todo.Database;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @Dao
 public interface TaskDao {
-    @Insert
+    @Insert()
     long addTask(Task task);
 
     @Query("SELECT * FROM task_tbl")

@@ -19,9 +19,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <FrameLayout
-            android:layout_width="5dp"
+            android:id="@+id/priority"
+            android:layout_width="6dp"
             android:layout_height="60dp"
-            android:layout_gravity="start|center_vertical"
+            android:layout_gravity="end|center_vertical"
             android:background="@color/colorAccent" />
 
         <ImageView
@@ -37,10 +38,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
-            android:layout_margin="8dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:layoutDirection="rtl"
-            android:text="Task Title"
+            android:scaleX="1.1"
+            android:scaleY="1.1"
+            android:textColor="@color/black"
             android:textSize="16sp"
-            android:textColor="@color/black"/>
+            tools:text="task" />
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:layoutDirection="rtl"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_task_title"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/titleDialogEditTextLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="@string/title_hint"
+        android:textColorHint="@color/grey500"
+        app:boxStrokeColor="@color/grey500">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/titleDialogEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <Button
+            android:id="@+id/saveTaskButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/save_task"
+            android:textColor="@color/yellow"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:rippleColor="@android:color/transparent" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/dateChip"
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                android:layoutDirection="ltr"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:chipBackgroundColor="@color/grey100"
+                app:chipIcon="@drawable/ic_calendar"
+                app:chipStartPadding="6dp"
+                app:rippleColor="@color/grey400" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/priorityChip"
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                android:layoutDirection="ltr"
+                android:text="@string/priority"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:chipBackgroundColor="@color/grey100"
+                app:chipIcon="@drawable/ic_normal"
+                app:chipStartPadding="6dp"
+                app:rippleColor="@color/grey400" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </RelativeLayout>
+
+</LinearLayout>

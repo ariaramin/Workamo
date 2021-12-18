@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray100"
-    tools:context=".MainActivity">
+    android:background="@color/grey100"
+    tools:context=".Activities.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/toolbar"
@@ -16,7 +16,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="62dp"
             android:padding="12dp">
 
             <TextView
@@ -39,6 +39,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="42dp"
+            android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             android:paddingStart="12dp"
             android:paddingEnd="12dp">
@@ -50,12 +51,12 @@
                 android:background="@drawable/field_bg"
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="8dp"
-                android:drawableTint="@color/gray500"
+                android:drawableTint="@color/grey500"
                 android:hint="@string/search_hint"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:textColor="@color/black"
-                android:textColorHint="@color/gray500" />
+                android:textColorHint="@color/grey500" />
         </FrameLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -66,17 +67,26 @@
         android:layout_height="match_parent"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        tools:listitem="@layout/task_item" />
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <ImageView
+        android:id="@+id/starterImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="54dp"
+        app:srcCompat="@drawable/starter_image" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addTaskButton"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="12dp"
+        android:layout_margin="18dp"
         android:src="@drawable/ic_plus"
-        app:maxImageSize="18dp"
         app:backgroundTint="@color/colorAccent"
-        app:elevation="12dp" />
+        app:elevation="12dp"
+        app:maxImageSize="18dp" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
