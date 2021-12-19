@@ -1,5 +1,6 @@
 package com.example.todo.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -30,7 +32,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements AppDialog.TaskDialogListener, TaskAdapter.TaskItemEventListener {
 
     ImageView starterImageView;
-    View addTaskButton;
+    FloatingActionButton addTaskButton;
     private TaskDao taskDao;
     private final TaskAdapter taskAdapter = new TaskAdapter(this);
     private static final int ADD_TASK_DIALOG_ID = 1;
@@ -72,6 +74,17 @@ public class MainActivity extends AppCompatActivity implements AppDialog.TaskDia
         RecyclerView tasksRv = findViewById(R.id.tasksRecyclerView);
         tasksRv.setAdapter(taskAdapter);
         tasksRv.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false));
+        tasksRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {
+                    addTaskButton.hide();
+                } else {
+                    addTaskButton.show();
+                }
+            }
+        });
         List<Task> tasks = taskDao.getTasks();
         taskAdapter.addItemList(tasks);
 
