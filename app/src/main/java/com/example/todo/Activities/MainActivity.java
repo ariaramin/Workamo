@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.example.todo.Database.AppDatabase;
@@ -89,8 +91,7 @@ public class MainActivity extends AppCompatActivity implements AppDialog.TaskDia
         clearTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                taskDao.clearAllTasks();
-                taskAdapter.clearItems();
+                showMenu(view);
             }
         });
 
@@ -154,5 +155,23 @@ public class MainActivity extends AppCompatActivity implements AppDialog.TaskDia
         pulseAnimation.setRepeatCount(Animation.INFINITE);
         pulseAnimation.setRepeatMode(Animation.REVERSE);
         addTaskButton.setAnimation(pulseAnimation);
+    }
+
+    private void showMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(getApplicationContext(), view);
+        popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.deleteAllTasks) {
+                    taskDao.clearAllTasks();
+                    taskAdapter.clearItems();
+                    starterImageView.setVisibility(View.VISIBLE);
+                    startButtonAnimation();
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
     }
 }

@@ -57,8 +57,8 @@ public class AppDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.app_dialog, null, false);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.app_dialog, null, false);
         titleEditText = view.findViewById(R.id.titleDialogEditText);
         TextInputLayout titleEditTextLayout = view.findViewById(R.id.titleDialogEditTextLayout);
         dateChip = view.findViewById(R.id.dateChip);
@@ -135,7 +135,7 @@ public class AppDialog extends DialogFragment {
     }
 
     private void showPopupMenu() {
-        PopupMenu popupMenu = new PopupMenu(getContext(), priorityChip);
+        PopupMenu popupMenu = new PopupMenu(getActivity().getApplicationContext(), priorityChip);
         popupMenu.getMenuInflater().inflate(R.menu.priority_menu, popupMenu.getMenu());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             popupMenu.setForceShowIcon(true);
@@ -157,7 +157,7 @@ public class AppDialog extends DialogFragment {
             PersianDateFormat dateFormat = new PersianDateFormat("j F Y", PersianDateFormat.PersianDateNumberCharacter.FARSI);
             dateChip.setText(dateFormat.format(persianDate));
         }
-        PersianDatePickerDialog picker = new PersianDatePickerDialog(getContext())
+        PersianDatePickerDialog picker = new PersianDatePickerDialog(getActivity())
                 .setPositiveButtonString(getResources().getString(R.string.ok))
                 .setNegativeButton(getResources().getString(R.string.cancel))
                 .setTodayButton(getResources().getString(R.string.today))

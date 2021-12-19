@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">برنامه ریزی</string>
+    <string name="app_name">کارام</string>
     <string name="appbar_title">لیست وظایف</string>
     <string name="search_hint">جستجو...</string>
     <string name="add_task_title">اضافه کردن وظیفه جدید</string>
@@ -12,6 +12,7 @@
     <string name="normal">عادی</string>
     <string name="intermediate">متوسط</string>
     <string name="important">مهم</string>
+    <string name="delete_all_tasks">پاک کردن تمام کارها</string>
     <string name="field_error_text">عنوان نباید خالی باشد!</string>
     <string name="save_task">‌ذخیره</string>
 </resources>

@@ -16,8 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.todo.Database.Task;
 import com.example.todo.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+
+import saman.zamani.persiandate.PersianDate;
+import saman.zamani.persiandate.PersianDateFormat;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
@@ -152,9 +161,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
     }
 
-    public interface TaskItemEventListener{
+    public interface TaskItemEventListener {
         void OnItemDeleteClick(Task task);
+
         void OnItemLongClick(Task task);
+
         void OnItemCheckedChange(Task task);
     }
 }
