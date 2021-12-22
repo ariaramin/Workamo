@@ -8,12 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
-import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -57,10 +55,10 @@ public class MainActivity extends AppCompatActivity implements AppDialog.TaskDia
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.length() > 0) {
                     List<Task> tasks = taskDao.searchInTasks(charSequence.toString());
-                    taskAdapter.setNewTasks(tasks);
+                    taskAdapter.setNewItems(tasks);
                 } else {
                     List<Task> tasks = taskDao.getTasks();
-                    taskAdapter.setNewTasks(tasks);
+                    taskAdapter.setNewItems(tasks);
                 }
             }
 
@@ -100,8 +98,8 @@ public class MainActivity extends AppCompatActivity implements AppDialog.TaskDia
             }
         });
 
-        View clearTaskButton = findViewById(R.id.clearTaskButton);
-        clearTaskButton.setOnClickListener(new View.OnClickListener() {
+        View menuButton = findViewById(R.id.menuButton);
+        menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showMenu(view);
@@ -177,10 +175,45 @@ public class MainActivity extends AppCompatActivity implements AppDialog.TaskDia
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.deleteAllTasks) {
-                    taskDao.clearAllTasks();
-                    taskAdapter.clearItems();
-                    starterImageView.setVisibility(View.VISIBLE);
+                    if (taskDao.getTasks().size() > 0) {
+                        taskDao.clearAllTasks();
+                        taskAdapter.clearItems();
+                        starterImageView.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.empty_tasks_error), Toast.LENGTH_SHORT).show();
+                    }
                     startButtonAnimation();
+                } else if (item.getItemId() == R.id.sortByPriority) {
+                    if (taskDao.getTasks().size() > 0)
+                        taskAdapter.sortByPriority();
+                    else
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.empty_tasks_error), Toast.LENGTH_SHORT).show();
+                } else if (item.getItemId() == R.id.sortByDate) {
+                    if (taskDao.getTasks().size() > 0)
+                        taskAdapter.sortByDate();
+                    else
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.empty_tasks_error), Toast.LENGTH_SHORT).show();
+                } else if (item.getItemId() == R.id.deleteCompletedTasks) {
+                    if (taskDao.getTasks().size() > 0) {
+                        for (Task task :
+                                taskDao.getTasks()) {
+                            if (task.isCompleted()) {
+                                int result = taskDao.deleteTask(task);
+                                if (result > 0) {
+                                    taskAdapter.deleteItem(task);
+                                }
+                            } else {
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.empty_completed_tasks_error), Toast.LENGTH_SHORT).show();
+                                break;
+                            }
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.empty_tasks_error), Toast.LENGTH_SHORT).show();
+                    }
+                    if (taskAdapter.getItemCount() <= 0) {
+                        starterImageView.setVisibility(View.VISIBLE);
+                        startButtonAnimation();
+                    }
                 }
                 return false;
             }

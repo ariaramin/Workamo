@@ -6,6 +6,7 @@ import android.content.Context;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.todo.Database.Task;
 import com.example.todo.R;
+import com.example.todo.util.Util;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -82,14 +84,14 @@ public class AppDialog extends DialogFragment {
                     if (STATUS_ID == 2) {
                         task.setTitle(titleEditText.getText().toString());
                         task.setCompleted(false);
-                        task.setDate(dateChip.getText().toString());
+                        task.setDate(dateChip.getTag().toString());
                         task.setPriority(getPriority());
                         callback.OnEditText(task);
                     } else {
                         Task newTask = new Task();
                         newTask.setTitle(titleEditText.getText().toString());
                         newTask.setCompleted(false);
-                        newTask.setDate(dateChip.getText().toString());
+                        newTask.setDate(dateChip.getTag().toString());
                         newTask.setPriority(getPriority());
                         callback.OnAddNewTask(newTask);
                     }
@@ -154,8 +156,10 @@ public class AppDialog extends DialogFragment {
     private void setDatePicker() {
         if (STATUS_ID != 2) {
             PersianDate persianDate = new PersianDate();
-            PersianDateFormat dateFormat = new PersianDateFormat("j F Y", PersianDateFormat.PersianDateNumberCharacter.FARSI);
-            dateChip.setText(dateFormat.format(persianDate));
+            PersianDateFormat dateFormat = new PersianDateFormat("Y-m-j");
+            PersianDateFormat longDateFormat = new PersianDateFormat("j F Y", PersianDateFormat.PersianDateNumberCharacter.FARSI);
+            dateChip.setTag(dateFormat.format(persianDate));
+            dateChip.setText(longDateFormat.format(persianDate));
         }
         PersianDatePickerDialog picker = new PersianDatePickerDialog(getActivity())
                 .setPositiveButtonString(getResources().getString(R.string.ok))
@@ -176,11 +180,17 @@ public class AppDialog extends DialogFragment {
                 .setListener(new PersianPickerListener() {
                     @Override
                     public void onDateSelected(PersianPickerDate persianPickerDate) {
-                        String date = String.format("%s %s %s",
-                                persianNumber(String.valueOf(persianPickerDate.getPersianDay())),
+                        Util util = new Util();
+                        String date = String.format("%s-%s-%s",
+                                persianPickerDate.getPersianYear(),
+                                persianPickerDate.getPersianMonth() < 10 ? "0"+persianPickerDate.getPersianMonth() : persianPickerDate.getPersianMonth(),
+                                persianPickerDate.getPersianDay());
+                        dateChip.setTag(date);
+                        String longDate = String.format("%s %s %s",
+                                util.convertPersianNumber(String.valueOf(persianPickerDate.getPersianDay())),
                                 persianPickerDate.getPersianMonthName(),
-                                persianNumber(String.valueOf(persianPickerDate.getPersianYear())));
-                        dateChip.setText(date);
+                                util.convertPersianNumber(String.valueOf(persianPickerDate.getPersianYear())));
+                        dateChip.setText(longDate);
                     }
 
                     @Override
@@ -194,25 +204,6 @@ public class AppDialog extends DialogFragment {
                 picker.show();
             }
         });
-    }
-
-    private String persianNumber(String num) {
-        HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("0", "۰");
-        hashMap.put("1", "۱");
-        hashMap.put("2", "۲");
-        hashMap.put("3", "۳");
-        hashMap.put("4", "۴");
-        hashMap.put("5", "۵");
-        hashMap.put("6", "۶");
-        hashMap.put("7", "۷");
-        hashMap.put("8", "۸");
-        hashMap.put("9", "۹");
-        for (Map.Entry<String, String> entry :
-                hashMap.entrySet()) {
-            num = num.replace(entry.getKey(), entry.getValue());
-        }
-        return num;
     }
 
     public interface TaskDialogListener {

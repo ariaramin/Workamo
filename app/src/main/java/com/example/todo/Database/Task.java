@@ -7,6 +7,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import saman.zamani.persiandate.PersianDateFormat;
+
 @Entity(tableName = "task_tbl")
 public class Task implements Parcelable {
 

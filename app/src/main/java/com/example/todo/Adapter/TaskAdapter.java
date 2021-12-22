@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todo.Database.Task;
 import com.example.todo.R;
+import com.example.todo.util.Util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,7 +24,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import saman.zamani.persiandate.PersianDate;
 import saman.zamani.persiandate.PersianDateFormat;
@@ -88,7 +91,27 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         notifyDataSetChanged();
     }
 
-    public void setNewTasks(List<Task> tasks) {
+    public void sortByPriority() {
+        Collections.sort(tasks, new Comparator<Task>() {
+            @Override
+            public int compare(Task o1, Task o2) {
+                return o1.getPriority() > o2.getPriority() ? -1 : 0;
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    public void sortByDate() {
+        Collections.sort(tasks, new Comparator<Task>() {
+            @Override
+            public int compare(Task o1, Task o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    public void setNewItems(List<Task> tasks) {
         this.tasks = tasks;
         notifyDataSetChanged();
     }
@@ -110,7 +133,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
 
         public void bindTask(Task task) {
-            date.setText(task.getDate());
+            Util util = new Util();
+            date.setText(util.convertLongDate(task.getDate()));
             priority.setBackgroundColor(getPriorityColor(task));
             checkBox.setOnCheckedChangeListener(null);
             checkBox.setChecked(task.isCompleted());

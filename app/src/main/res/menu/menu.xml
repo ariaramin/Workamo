@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/sortByPriority"
+        android:title="@string/sort_by_priority"/>
+    <item android:id="@+id/sortByDate"
+        android:title="@string/sort_by_date"/>
+    <item android:id="@+id/deleteCompletedTasks"
+        android:title="@string/delete_completed_tasks"/>
     <item android:id="@+id/deleteAllTasks"
         android:title="@string/delete_all_tasks"/>
 </menu>

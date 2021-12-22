@@ -12,7 +12,12 @@
     <string name="normal">عادی</string>
     <string name="intermediate">متوسط</string>
     <string name="important">مهم</string>
+    <string name="sort_by_date">مرتب کردن بر اساس تاریخ</string>
+    <string name="sort_by_priority">مرتب کردن بر اساس الویت</string>
     <string name="delete_all_tasks">پاک کردن تمام کارها</string>
+    <string name="empty_tasks_error">هیچ کاری وجود ندارد</string>
+    <string name="delete_completed_tasks">پاک کردن کارهای انجام شده</string>
+    <string name="empty_completed_tasks_error">هیچ کاری انجام نشده است</string>
     <string name="field_error_text">عنوان نباید خالی باشد!</string>
     <string name="save_task">‌ذخیره</string>
 </resources>
