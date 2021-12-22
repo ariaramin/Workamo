@@ -107,9 +107,10 @@ public class AppDialog extends DialogFragment {
 
     private void setTaskInfo() {
         if (task != null) {
+            Util util = new Util();
             titleEditText.setText(task.getTitle());
             setPriority(task.getPriority());
-            dateChip.setText(task.getDate());
+            dateChip.setText(util.convertLongDate(task.getDate()));
         }
     }
 

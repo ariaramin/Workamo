@@ -195,18 +195,8 @@ public class MainActivity extends AppCompatActivity implements AppDialog.TaskDia
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.empty_tasks_error), Toast.LENGTH_SHORT).show();
                 } else if (item.getItemId() == R.id.deleteCompletedTasks) {
                     if (taskDao.getTasks().size() > 0) {
-                        for (Task task :
-                                taskDao.getTasks()) {
-                            if (task.isCompleted()) {
-                                int result = taskDao.deleteTask(task);
-                                if (result > 0) {
-                                    taskAdapter.deleteItem(task);
-                                }
-                            } else {
-                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.empty_completed_tasks_error), Toast.LENGTH_SHORT).show();
-                                break;
-                            }
-                        }
+                        taskDao.clearCompletedTasks();
+                        taskAdapter.clearCompletedItems();
                     } else {
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.empty_tasks_error), Toast.LENGTH_SHORT).show();
                     }

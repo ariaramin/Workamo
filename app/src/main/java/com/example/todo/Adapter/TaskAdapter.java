@@ -91,6 +91,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         notifyDataSetChanged();
     }
 
+    public void clearCompletedItems() {
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).isCompleted()) {
+                tasks.remove(i);
+                notifyItemRemoved(i);
+            }
+        }
+    }
+
     public void sortByPriority() {
         Collections.sort(tasks, new Comparator<Task>() {
             @Override
