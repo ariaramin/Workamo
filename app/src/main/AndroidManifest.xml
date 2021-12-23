@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ToDO">
         <activity
-            android:name=".Activities.SplashScreen"
+            android:name=".ui.Activities.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,12 +19,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".ui.Activities.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+
+        <service android:name=".Service.AlarmService" />
     </application>
 
 </manifest>

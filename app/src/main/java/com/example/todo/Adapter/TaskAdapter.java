@@ -15,21 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todo.Database.Task;
 import com.example.todo.R;
-import com.example.todo.util.Util;
+import com.example.todo.Utils.Utils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
-import saman.zamani.persiandate.PersianDate;
-import saman.zamani.persiandate.PersianDateFormat;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
@@ -142,7 +134,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
 
         public void bindTask(Task task) {
-            Util util = new Util();
+            Utils util = new Utils();
             date.setText(util.convertLongDate(task.getDate()));
             priority.setBackgroundColor(getPriorityColor(task));
             checkBox.setOnCheckedChangeListener(null);

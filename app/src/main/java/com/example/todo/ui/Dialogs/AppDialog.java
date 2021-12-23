@@ -1,4 +1,4 @@
-package com.example.todo.Dialog;
+package com.example.todo.ui.Dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -6,7 +6,6 @@ import android.content.Context;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,13 +18,10 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.todo.Database.Task;
 import com.example.todo.R;
-import com.example.todo.util.Util;
+import com.example.todo.Utils.Utils;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import ir.hamsaa.persiandatepicker.PersianDatePickerDialog;
 import ir.hamsaa.persiandatepicker.api.PersianPickerDate;
@@ -64,6 +60,12 @@ public class AppDialog extends DialogFragment {
         titleEditText = view.findViewById(R.id.titleDialogEditText);
         TextInputLayout titleEditTextLayout = view.findViewById(R.id.titleDialogEditTextLayout);
         dateChip = view.findViewById(R.id.dateChip);
+        dateChip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePicker();
+            }
+        });
         priorityChip = view.findViewById(R.id.priorityChip);
         priorityChip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +76,7 @@ public class AppDialog extends DialogFragment {
         if (STATUS_ID == 2 && task != null) {
             setTaskInfo();
         }
-        setDatePicker();
+        setCurrentDate();
 
         Button saveButton = view.findViewById(R.id.saveTaskButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +109,7 @@ public class AppDialog extends DialogFragment {
 
     private void setTaskInfo() {
         if (task != null) {
-            Util util = new Util();
+            Utils util = new Utils();
             titleEditText.setText(task.getTitle());
             setPriority(task.getPriority());
             dateChip.setText(util.convertLongDate(task.getDate()));
@@ -154,7 +156,7 @@ public class AppDialog extends DialogFragment {
         popupMenu.show();
     }
 
-    private void setDatePicker() {
+    private void setCurrentDate() {
         if (STATUS_ID != 2) {
             PersianDate persianDate = new PersianDate();
             PersianDateFormat dateFormat = new PersianDateFormat("Y-m-j");
@@ -162,6 +164,9 @@ public class AppDialog extends DialogFragment {
             dateChip.setTag(dateFormat.format(persianDate));
             dateChip.setText(longDateFormat.format(persianDate));
         }
+    }
+
+    private void showDatePicker() {
         PersianDatePickerDialog picker = new PersianDatePickerDialog(getActivity())
                 .setPositiveButtonString(getResources().getString(R.string.ok))
                 .setNegativeButton(getResources().getString(R.string.cancel))
@@ -181,10 +186,10 @@ public class AppDialog extends DialogFragment {
                 .setListener(new PersianPickerListener() {
                     @Override
                     public void onDateSelected(PersianPickerDate persianPickerDate) {
-                        Util util = new Util();
+                        Utils util = new Utils();
                         String date = String.format("%s-%s-%s",
                                 persianPickerDate.getPersianYear(),
-                                persianPickerDate.getPersianMonth() < 10 ? "0"+persianPickerDate.getPersianMonth() : persianPickerDate.getPersianMonth(),
+                                persianPickerDate.getPersianMonth() < 10 ? "0" + persianPickerDate.getPersianMonth() : persianPickerDate.getPersianMonth(),
                                 persianPickerDate.getPersianDay());
                         dateChip.setTag(date);
                         String longDate = String.format("%s %s %s",
@@ -199,12 +204,7 @@ public class AppDialog extends DialogFragment {
 
                     }
                 });
-        dateChip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                picker.show();
-            }
-        });
+        picker.show();
     }
 
     public interface TaskDialogListener {

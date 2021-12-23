@@ -1,17 +1,9 @@
-package com.example.todo.util;
+package com.example.todo.Utils;
 
-import android.util.Log;
-
-import java.sql.Date;
-import java.text.ParseException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import saman.zamani.persiandate.PersianDate;
-import saman.zamani.persiandate.PersianDateFormat;
-
-public class Util {
+public class Utils {
 
     public String convertPersianNumber(String num) {
         HashMap<String, String> numbers = new HashMap<>();
