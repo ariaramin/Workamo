@@ -176,12 +176,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     @Override
     public void showBackgroundImage() {
-        starterImageView.setVisibility(View.VISIBLE);
+        starterImageView.animate().alpha(1f);
     }
 
     @Override
     public void hideBackgroundImage() {
-        starterImageView.setVisibility(View.GONE);
+        starterImageView.animate().alpha(0f);
     }
 
     @Override
