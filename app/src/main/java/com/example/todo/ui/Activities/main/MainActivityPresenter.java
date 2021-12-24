@@ -77,8 +77,13 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     @Override
     public void deleteCompletedTasks() {
         if (taskDao.getTasks().size() > 0) {
-            taskDao.clearCompletedTasks();
-            taskAdapter.clearCompletedItems();
+            for (Task task:
+                 taskDao.getTasks()) {
+                if (task.isCompleted()) {
+                    taskDao.deleteTask(task);
+                    taskAdapter.deleteItem(task);
+                }
+            }
         } else {
             view.raiseEmptyTaskError();
         }

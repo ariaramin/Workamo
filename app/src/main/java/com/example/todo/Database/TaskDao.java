@@ -27,7 +27,4 @@ public interface TaskDao {
 
     @Query("DELETE FROM task_tbl")
     void clearAllTasks();
-
-    @Query("DELETE FROM task_tbl WHERE isCompleted = 1")
-    void clearCompletedTasks();
 }

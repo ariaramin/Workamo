@@ -1,6 +1,7 @@
 package com.example.todo.Adapter;
 
 import android.graphics.Paint;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
@@ -81,15 +83,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public void clearItems() {
         tasks.clear();
         notifyDataSetChanged();
-    }
-
-    public void clearCompletedItems() {
-        for (int i = 0; i < tasks.size(); i++) {
-            if (tasks.get(i).isCompleted()) {
-                tasks.remove(i);
-                notifyItemRemoved(i);
-            }
-        }
     }
 
     public void sortByPriority() {
