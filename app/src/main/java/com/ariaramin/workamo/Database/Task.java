@@ -1,13 +1,10 @@
-package com.example.todo.Database;
+package com.ariaramin.workamo.Database;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
-import saman.zamani.persiandate.PersianDateFormat;
 
 @Entity(tableName = "task_tbl")
 public class Task implements Parcelable {

@@ -1,8 +1,6 @@
-package com.example.todo.Adapter;
+package com.ariaramin.workamo.Adapter;
 
 import android.graphics.Paint;
-import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +12,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.todo.Database.Task;
-import com.example.todo.R;
-import com.example.todo.Utils.Utils;
+import com.ariaramin.workamo.Database.Task;
+import com.ariaramin.workamo.R;
+import com.ariaramin.workamo.Utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 

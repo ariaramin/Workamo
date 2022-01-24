@@ -1,4 +1,4 @@
-package com.example.todo.ui.Activities.main;
+package com.ariaramin.workamo.ui.Activities.main;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,13 +16,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
-
-import com.example.todo.Database.AppDatabase;
-import com.example.todo.ui.Dialogs.AppDialog;
-import com.example.todo.R;
-import com.example.todo.Database.Task;
-import com.example.todo.Adapter.TaskAdapter;
-import com.example.todo.Database.TaskDao;
+import com.ariaramin.workamo.Adapter.TaskAdapter;
+import com.ariaramin.workamo.Database.AppDatabase;
+import com.ariaramin.workamo.Database.Task;
+import com.ariaramin.workamo.Database.TaskDao;
+import com.ariaramin.workamo.ui.Dialogs.AppDialog;
+import com.ariaramin.workamo.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;

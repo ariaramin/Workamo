@@ -26,7 +26,7 @@
         <entry key="app/src/main/res/layout/app_dialog.xml" value="0.3359375" />
         <entry key="app/src/main/res/layout/priority_bottom_sheet.xml" value="0.3359375" />
         <entry key="app/src/main/res/layout/task_dialog.xml" value="0.3338541666666667" />
-        <entry key="app/src/main/res/layout/task_item.xml" value="0.3338541666666667" />
+        <entry key="app/src/main/res/layout/task_item.xml" value="0.5" />
         <entry key="app/src/main/res/layout/update_task_dialog.xml" value="0.3338541666666667" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.3359375" />
         <entry key="app/src/main/res/menu/priority_menu.xml" value="0.3359375" />

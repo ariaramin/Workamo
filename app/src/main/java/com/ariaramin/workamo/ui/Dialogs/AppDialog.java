@@ -1,4 +1,4 @@
-package com.example.todo.ui.Dialogs;
+package com.ariaramin.workamo.ui.Dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -16,9 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.example.todo.Database.Task;
-import com.example.todo.R;
-import com.example.todo.Utils.Utils;
+import com.ariaramin.workamo.Database.Task;
+import com.ariaramin.workamo.Utils.Utils;
+import com.ariaramin.workamo.R;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;

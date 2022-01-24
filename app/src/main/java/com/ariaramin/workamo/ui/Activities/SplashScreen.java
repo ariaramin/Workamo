@@ -1,4 +1,4 @@
-package com.example.todo.ui.Activities;
+package com.ariaramin.workamo.ui.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.example.todo.ui.Activities.main.MainActivity;
-import com.example.todo.R;
+import com.ariaramin.workamo.ui.Activities.main.MainActivity;
+import com.ariaramin.workamo.R;
 
 public class SplashScreen extends AppCompatActivity {
 

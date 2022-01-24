@@ -1,14 +1,10 @@
-package com.example.todo.ui.Activities.main;
+package com.ariaramin.workamo.ui.Activities.main;
 
-import android.os.Bundle;
 import android.view.View;
 
-import androidx.fragment.app.FragmentManager;
-
-import com.example.todo.Adapter.TaskAdapter;
-import com.example.todo.Database.Task;
-import com.example.todo.Database.TaskDao;
-import com.example.todo.ui.Dialogs.AppDialog;
+import com.ariaramin.workamo.Adapter.TaskAdapter;
+import com.ariaramin.workamo.Database.Task;
+import com.ariaramin.workamo.Database.TaskDao;
 
 import java.util.List;
 
