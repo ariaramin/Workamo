@@ -3,9 +3,13 @@ package com.ariaramin.workamo.Utils;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Utils {
+public class Constants {
+    public static final int ADD_TASK_DIALOG_ID = 1;
+    public static final int EDIT_TASK_DIALOG_ID = 2;
+    public static final String TASK = "task";
+    public static final String STATUS = "status";
 
-    public String convertPersianNumber(String num) {
+    public static String convertPersianNumber(String num) {
         HashMap<String, String> numbers = new HashMap<>();
         numbers.put("0", "۰");
         numbers.put("1", "۱");
@@ -24,7 +28,7 @@ public class Utils {
         return num;
     }
 
-    public String convertLongDate(String date) {
+    public static String convertLongDate(String date) {
         HashMap<String, String> months = new HashMap<>();
         months.put("01", "فروردین");
         months.put("02", "اردیبهشت");

@@ -2,29 +2,25 @@ package com.ariaramin.workamo.Adapter;
 
 import android.graphics.Paint;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ariaramin.workamo.Database.Task;
 import com.ariaramin.workamo.R;
-import com.ariaramin.workamo.Utils.Utils;
+import com.ariaramin.workamo.Utils.Constants;
+import com.ariaramin.workamo.databinding.TaskItemBinding;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
     private List<Task> tasks = new ArrayList<>();
-    private TaskItemEventListener eventListener;
+    private final TaskItemEventListener eventListener;
 
     public TaskAdapter(TaskItemEventListener eventListener) {
         this.eventListener = eventListener;
@@ -33,7 +29,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @NonNull
     @Override
     public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new TaskViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.task_item, parent, false));
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        TaskItemBinding binding = TaskItemBinding.inflate(layoutInflater, parent, false);
+        return new TaskViewHolder(binding);
     }
 
     @Override
@@ -82,22 +80,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     public void sortByPriority() {
-        Collections.sort(tasks, new Comparator<Task>() {
-            @Override
-            public int compare(Task o1, Task o2) {
-                return o1.getPriority() > o2.getPriority() ? -1 : 0;
-            }
-        });
+        Collections.sort(tasks, (o1, o2) -> o1.getPriority() > o2.getPriority() ? -1 : 0);
         notifyDataSetChanged();
     }
 
     public void sortByDate() {
-        Collections.sort(tasks, new Comparator<Task>() {
-            @Override
-            public int compare(Task o1, Task o2) {
-                return o1.getDate().compareTo(o2.getDate());
-            }
-        });
+        Collections.sort(tasks, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
         notifyDataSetChanged();
     }
 
@@ -108,51 +96,29 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     public class TaskViewHolder extends RecyclerView.ViewHolder {
 
-        private final CheckBox checkBox;
-        private final View deleteButton;
-        private final FrameLayout priority;
-        private final TextView date;
+        TaskItemBinding binding;
 
-        public TaskViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            checkBox = itemView.findViewById(R.id.taskCheckBox);
-            priority = itemView.findViewById(R.id.priority);
-            date = itemView.findViewById(R.id.dateTextView);
-            deleteButton = itemView.findViewById(R.id.deleteTaskButton);
+        public TaskViewHolder(@NonNull TaskItemBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
         }
 
         public void bindTask(Task task) {
-            Utils util = new Utils();
-            date.setText(util.convertLongDate(task.getDate()));
-            priority.setBackgroundColor(getPriorityColor(task));
-            checkBox.setOnCheckedChangeListener(null);
-            checkBox.setChecked(task.isCompleted());
-            setTextLineThrough(checkBox);
-            checkBox.setText(task.getTitle());
-
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    task.setCompleted(b);
-                    setTextLineThrough(checkBox);
-                    eventListener.OnItemCheckedChange(task);
-                }
+            binding.dateTextView.setText(Constants.convertLongDate(task.getDate()));
+            binding.priority.setBackgroundColor(getPriorityColor(task));
+            binding.taskCheckBox.setOnCheckedChangeListener(null);
+            binding.taskCheckBox.setChecked(task.isCompleted());
+            setTextLineThrough(binding.taskCheckBox);
+            binding.taskCheckBox.setText(task.getTitle());
+            binding.taskCheckBox.setOnCheckedChangeListener((compoundButton, b) -> {
+                task.setCompleted(b);
+                setTextLineThrough(binding.taskCheckBox);
+                eventListener.OnItemCheckedChange(task);
             });
-
-            deleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    eventListener.OnItemDeleteClick(task);
-                }
-            });
-
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    eventListener.OnItemLongClick(task);
-                    return false;
-                }
+            binding.deleteTaskButton.setOnClickListener(view -> eventListener.OnItemDeleteClick(task));
+            itemView.setOnLongClickListener(view -> {
+                eventListener.OnItemLongClick(task);
+                return false;
             });
         }
 
@@ -173,13 +139,5 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 checkBox.setPaintFlags(checkBox.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             }
         }
-    }
-
-    public interface TaskItemEventListener {
-        void OnItemDeleteClick(Task task);
-
-        void OnItemLongClick(Task task);
-
-        void OnItemCheckedChange(Task task);
     }
 }

@@ -22,6 +22,7 @@
 
     <style name="PopupMenuTextAppearanceLarge" parent="@style/TextAppearance.AppCompat.Widget.PopupMenu.Large">
         <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/primary_regular</item>
     </style>
 
     <style name="DatePicker">

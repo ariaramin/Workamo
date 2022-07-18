@@ -6,10 +6,6 @@ import android.content.Context;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
@@ -17,11 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.ariaramin.workamo.Database.Task;
-import com.ariaramin.workamo.Utils.Utils;
+import com.ariaramin.workamo.Utils.Constants;
 import com.ariaramin.workamo.R;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
+import com.ariaramin.workamo.databinding.AppDialogBinding;
 
 import ir.hamsaa.persiandatepicker.PersianDatePickerDialog;
 import ir.hamsaa.persiandatepicker.api.PersianPickerDate;
@@ -32,10 +26,8 @@ import saman.zamani.persiandate.PersianDateFormat;
 
 public class AppDialog extends DialogFragment {
 
+    AppDialogBinding binding;
     private TaskDialogListener callback;
-    TextInputEditText titleEditText;
-    Chip dateChip;
-    Chip priorityChip;
     int STATUS_ID;
     Task task;
 
@@ -45,10 +37,10 @@ public class AppDialog extends DialogFragment {
         callback = (TaskDialogListener) context;
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            STATUS_ID = bundle.getInt("status");
+            STATUS_ID = bundle.getInt(Constants.STATUS);
         }
         if (STATUS_ID == 2) {
-            task = getArguments().getParcelable("task");
+            task = getArguments().getParcelable(Constants.TASK);
         }
     }
 
@@ -56,69 +48,50 @@ public class AppDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.app_dialog, null, false);
-        titleEditText = view.findViewById(R.id.titleDialogEditText);
-        TextInputLayout titleEditTextLayout = view.findViewById(R.id.titleDialogEditTextLayout);
-        dateChip = view.findViewById(R.id.dateChip);
-        dateChip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePicker();
-            }
-        });
-        priorityChip = view.findViewById(R.id.priorityChip);
-        priorityChip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopupMenu();
-            }
-        });
+        binding = AppDialogBinding.inflate(getLayoutInflater());
+        binding.dateChip.setOnClickListener(v -> showDatePicker());
+        binding.priorityChip.setOnClickListener(v -> showPopupMenu());
         if (STATUS_ID == 2 && task != null) {
             setTaskInfo();
         }
         setCurrentDate();
-
-        Button saveButton = view.findViewById(R.id.saveTaskButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (titleEditText.length() > 0) {
-                    if (STATUS_ID == 2) {
-                        task.setTitle(titleEditText.getText().toString());
-                        task.setCompleted(false);
-                        task.setDate(dateChip.getTag().toString());
-                        task.setPriority(getPriority());
-                        callback.OnEditText(task);
-                    } else {
-                        Task newTask = new Task();
-                        newTask.setTitle(titleEditText.getText().toString());
-                        newTask.setCompleted(false);
-                        newTask.setDate(dateChip.getTag().toString());
-                        newTask.setPriority(getPriority());
-                        callback.OnAddNewTask(newTask);
-                    }
-                    dismiss();
+        binding.saveTaskButton.setOnClickListener(view -> {
+            if (binding.titleDialogEditText.length() > 0) {
+                if (STATUS_ID == 2) {
+                    task.setTitle(binding.titleDialogEditText.getText().toString());
+                    task.setCompleted(false);
+                    task.setDate(binding.dateChip.getTag().toString());
+                    task.setPriority(getPriority());
+                    callback.OnEditText(task);
                 } else {
-                    titleEditTextLayout.setError(getResources().getString(R.string.field_error_text));
+                    Task newTask = new Task();
+                    newTask.setTitle(binding.titleDialogEditText.getText().toString());
+                    newTask.setCompleted(false);
+                    newTask.setDate(binding.dateChip.getTag().toString());
+                    newTask.setPriority(getPriority());
+                    callback.OnAddNewTask(newTask);
                 }
+                dismiss();
+            } else {
+                binding.titleDialogEditTextLayout.setError(getResources().getString(R.string.field_error_text));
             }
         });
-        builder.setView(view);
+        builder.setView(binding.getRoot());
         return builder.create();
     }
 
     private void setTaskInfo() {
         if (task != null) {
-            Utils util = new Utils();
-            titleEditText.setText(task.getTitle());
+            Constants util = new Constants();
+            binding.titleDialogEditText.setText(task.getTitle());
             setPriority(task.getPriority());
-            dateChip.setTag(task.getDate());
-            dateChip.setText(util.convertLongDate(task.getDate()));
+            binding.dateChip.setTag(task.getDate());
+            binding.dateChip.setText(util.convertLongDate(task.getDate()));
         }
     }
 
     private int getPriority() {
-        String priority = priorityChip.getText().toString();
+        String priority = binding.priorityChip.getText().toString();
         if (priority.equals(getResources().getString(R.string.intermediate))) {
             return 2;
         } else if (priority.equals(getResources().getString(R.string.important))) {
@@ -129,30 +102,27 @@ public class AppDialog extends DialogFragment {
 
     private void setPriority(int id) {
         if (id == 3) {
-            priorityChip.setText(getResources().getString(R.string.important));
-            priorityChip.setChipIcon(getResources().getDrawable(R.drawable.ic_important));
+            binding.priorityChip.setText(getResources().getString(R.string.important));
+            binding.priorityChip.setChipIcon(getResources().getDrawable(R.drawable.ic_important));
         } else if (id == 2) {
-            priorityChip.setText(getResources().getString(R.string.intermediate));
-            priorityChip.setChipIcon(getResources().getDrawable(R.drawable.ic_intermediate));
+            binding.priorityChip.setText(getResources().getString(R.string.intermediate));
+            binding.priorityChip.setChipIcon(getResources().getDrawable(R.drawable.ic_intermediate));
         } else {
-            priorityChip.setText(getResources().getString(R.string.normal));
-            priorityChip.setChipIcon(getResources().getDrawable(R.drawable.ic_normal));
+            binding.priorityChip.setText(getResources().getString(R.string.normal));
+            binding.priorityChip.setChipIcon(getResources().getDrawable(R.drawable.ic_normal));
         }
     }
 
     private void showPopupMenu() {
-        PopupMenu popupMenu = new PopupMenu(getActivity().getApplicationContext(), priorityChip);
+        PopupMenu popupMenu = new PopupMenu(getActivity().getApplicationContext(), binding.priorityChip);
         popupMenu.getMenuInflater().inflate(R.menu.priority_menu, popupMenu.getMenu());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             popupMenu.setForceShowIcon(true);
         }
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                priorityChip.setText(item.getTitle());
-                priorityChip.setChipIcon(item.getIcon());
-                return false;
-            }
+        popupMenu.setOnMenuItemClickListener(item -> {
+            binding.priorityChip.setText(item.getTitle());
+            binding.priorityChip.setChipIcon(item.getIcon());
+            return false;
         });
         popupMenu.show();
     }
@@ -162,8 +132,8 @@ public class AppDialog extends DialogFragment {
             PersianDate persianDate = new PersianDate();
             PersianDateFormat dateFormat = new PersianDateFormat("Y-m-j");
             PersianDateFormat longDateFormat = new PersianDateFormat("j F Y", PersianDateFormat.PersianDateNumberCharacter.FARSI);
-            dateChip.setTag(dateFormat.format(persianDate));
-            dateChip.setText(longDateFormat.format(persianDate));
+            binding.dateChip.setTag(dateFormat.format(persianDate));
+            binding.dateChip.setText(longDateFormat.format(persianDate));
         }
     }
 
@@ -187,17 +157,17 @@ public class AppDialog extends DialogFragment {
                 .setListener(new PersianPickerListener() {
                     @Override
                     public void onDateSelected(PersianPickerDate persianPickerDate) {
-                        Utils util = new Utils();
+                        Constants util = new Constants();
                         String date = String.format("%s-%s-%s",
                                 persianPickerDate.getPersianYear(),
                                 persianPickerDate.getPersianMonth() < 10 ? "0" + persianPickerDate.getPersianMonth() : persianPickerDate.getPersianMonth(),
                                 persianPickerDate.getPersianDay());
-                        dateChip.setTag(date);
+                        binding.dateChip.setTag(date);
                         String longDate = String.format("%s %s %s",
                                 util.convertPersianNumber(String.valueOf(persianPickerDate.getPersianDay())),
                                 persianPickerDate.getPersianMonthName(),
                                 util.convertPersianNumber(String.valueOf(persianPickerDate.getPersianYear())));
-                        dateChip.setText(longDate);
+                        binding.dateChip.setText(longDate);
                     }
 
                     @Override
@@ -206,11 +176,5 @@ public class AppDialog extends DialogFragment {
                     }
                 });
         picker.show();
-    }
-
-    public interface TaskDialogListener {
-        void OnAddNewTask(Task task);
-
-        void OnEditText(Task task);
     }
 }

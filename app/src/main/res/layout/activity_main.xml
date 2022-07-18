@@ -1,93 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/grey100"
-    tools:context="com.ariaramin.workamo.ui.Activities.main.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/toolbar_bg"
-        android:layoutDirection="rtl">
+    <data>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="62dp"
-            android:layout_marginBottom="12dp"
-            android:padding="12dp">
+    </data>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/appbar_title"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-
-            <ImageView
-                android:id="@+id/menuButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_align_left" />
-        </RelativeLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp">
-
-            <EditText
-                android:id="@+id/searchEditText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/field_bg"
-                android:drawableStart="@drawable/ic_search"
-                android:drawablePadding="8dp"
-                android:drawableTint="@color/grey500"
-                android:hint="@string/search_hint"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/grey500" />
-        </FrameLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <ImageView
-        android:id="@+id/starterImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="54dp"
-        android:alpha="0"
-        app:srcCompat="@drawable/starter_image" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/tasksRecyclerView"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="4dp"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        android:background="@color/grey100"
+        tools:context="com.ariaramin.workamo.ui.Activities.main.MainActivity">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/toolbar_bg"
+            android:layoutDirection="rtl">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addTaskButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="18dp"
-        android:src="@drawable/ic_plus"
-        app:backgroundTint="@color/colorAccent"
-        app:elevation="12dp"
-        app:maxImageSize="18dp" />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:layout_marginBottom="12dp"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/appbar_title"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/menuButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_align_left" />
+            </RelativeLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
+
+                <EditText
+                    android:id="@+id/searchEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/field_bg"
+                    android:drawableStart="@drawable/ic_search"
+                    android:drawablePadding="8dp"
+                    android:drawableTint="@color/grey500"
+                    android:hint="@string/search_hint"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey500" />
+            </FrameLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ImageView
+            android:id="@+id/starterImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="54dp"
+            android:alpha="0"
+            app:srcCompat="@drawable/starter_image" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tasksRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="4dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            tools:listitem="@layout/task_item" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addTaskButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="18dp"
+            android:src="@drawable/ic_plus"
+            app:backgroundTint="@color/colorAccent"
+            app:elevation="12dp"
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+            app:maxImageSize="18dp" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
