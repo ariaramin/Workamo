@@ -14,6 +14,7 @@ import com.ariaramin.workamo.Adapter.TaskItemEventListener;
 import com.ariaramin.workamo.Database.AppDatabase;
 import com.ariaramin.workamo.Database.Task;
 import com.ariaramin.workamo.Database.TaskDao;
+import com.ariaramin.workamo.Notification.NotificationServiceManager;
 import com.ariaramin.workamo.Utils.Constants;
 import com.ariaramin.workamo.databinding.ActivityMainBinding;
 import com.ariaramin.workamo.ui.Dialogs.AppDialog;
@@ -22,6 +23,7 @@ import com.ariaramin.workamo.ui.Dialogs.TaskDialogListener;
 
 
 import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity implements MainActivityContract.View, TaskDialogListener, TaskItemEventListener {
 
@@ -131,6 +133,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         AppDialog dialog = new AppDialog();
         dialog.setArguments(bundle);
         dialog.show(getSupportFragmentManager(), null);
+    }
+
+    @Override
+    public void scheduleTaskNotification(Task task) {
+        NotificationServiceManager notificationManager = new NotificationServiceManager();
+        notificationManager.scheduleNotification(this, task);
     }
 
     @Override

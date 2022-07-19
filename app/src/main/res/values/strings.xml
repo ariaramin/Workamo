@@ -20,4 +20,7 @@
     <string name="empty_completed_tasks_error">هیچ کاری انجام نشده است</string>
     <string name="field_error_text">عنوان نباید خالی باشد!</string>
     <string name="save_task">‌ذخیره</string>
+    <string name="channel_name">Reminder Notification</string>
+    <string name="channel_description">Remind you at the exact date of tasks.</string>
+<!--    <string name="notification_message">یادت نره امروز </string>-->
 </resources>

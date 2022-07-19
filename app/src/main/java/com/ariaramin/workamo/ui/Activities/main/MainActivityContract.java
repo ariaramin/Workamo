@@ -18,6 +18,8 @@ public interface MainActivityContract {
 
         void showEditTaskDialog(Task task);
 
+        void scheduleTaskNotification(Task task);
+
         void showBackgroundImage();
 
         void hideBackgroundImage();

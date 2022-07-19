@@ -33,6 +33,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
         if (taskId != -1) {
             task.setId(taskId);
             taskAdapter.addItem(task);
+            view.scheduleTaskNotification(task);
             view.hideBackgroundImage();
             view.stopFabAnimation();
         }
@@ -73,8 +74,8 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     @Override
     public void deleteCompletedTasks() {
         if (taskDao.getTasks().size() > 0) {
-            for (Task task:
-                 taskDao.getTasks()) {
+            for (Task task :
+                    taskDao.getTasks()) {
                 if (task.isCompleted()) {
                     taskDao.deleteTask(task);
                     taskAdapter.deleteItem(task);

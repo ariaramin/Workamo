@@ -8,6 +8,8 @@ public class Constants {
     public static final int EDIT_TASK_DIALOG_ID = 2;
     public static final String TASK = "task";
     public static final String STATUS = "status";
+    public static final String CHANNEL_ID = "main_channel";
+    public static final int NOTIFICATION_ID = 1001;
 
     public static String convertPersianNumber(String num) {
         HashMap<String, String> numbers = new HashMap<>();

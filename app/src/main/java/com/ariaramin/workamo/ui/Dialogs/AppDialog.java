@@ -82,11 +82,10 @@ public class AppDialog extends DialogFragment {
 
     private void setTaskInfo() {
         if (task != null) {
-            Constants util = new Constants();
             binding.titleDialogEditText.setText(task.getTitle());
             setPriority(task.getPriority());
             binding.dateChip.setTag(task.getDate());
-            binding.dateChip.setText(util.convertLongDate(task.getDate()));
+            binding.dateChip.setText(Constants.convertLongDate(task.getDate()));
         }
     }
 
@@ -157,16 +156,15 @@ public class AppDialog extends DialogFragment {
                 .setListener(new PersianPickerListener() {
                     @Override
                     public void onDateSelected(PersianPickerDate persianPickerDate) {
-                        Constants util = new Constants();
                         String date = String.format("%s-%s-%s",
                                 persianPickerDate.getPersianYear(),
                                 persianPickerDate.getPersianMonth() < 10 ? "0" + persianPickerDate.getPersianMonth() : persianPickerDate.getPersianMonth(),
                                 persianPickerDate.getPersianDay());
                         binding.dateChip.setTag(date);
                         String longDate = String.format("%s %s %s",
-                                util.convertPersianNumber(String.valueOf(persianPickerDate.getPersianDay())),
+                                Constants.convertPersianNumber(String.valueOf(persianPickerDate.getPersianDay())),
                                 persianPickerDate.getPersianMonthName(),
-                                util.convertPersianNumber(String.valueOf(persianPickerDate.getPersianYear())));
+                                Constants.convertPersianNumber(String.valueOf(persianPickerDate.getPersianYear())));
                         binding.dateChip.setText(longDate);
                     }
 
