@@ -85,7 +85,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     public void sortByDate() {
-        Collections.sort(tasks, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
+        Collections.sort(tasks, (o1, o2) -> o2.getDate().compareTo(o1.getDate()));
         notifyDataSetChanged();
     }
 

@@ -52,6 +52,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
         int result = taskDao.deleteTask(task);
         if (result > 0) {
             taskAdapter.deleteItem(task);
+            view.cancelTaskNotification(task);
         }
         if (taskAdapter.getItemCount() <= 0) {
             view.showBackgroundImage();

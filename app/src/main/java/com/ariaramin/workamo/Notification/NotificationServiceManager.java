@@ -1,5 +1,6 @@
 package com.ariaramin.workamo.Notification;
 
+import static android.content.Context.ALARM_SERVICE;
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 import android.app.AlarmManager;
@@ -9,6 +10,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
@@ -25,22 +27,44 @@ import saman.zamani.persiandate.PersianDate;
 
 public class NotificationServiceManager {
 
+    public void cancelNotification(Context context, Task task) {
+        PendingIntent pendingIntent = getAlarmManagerPendingIntent(context, task);
+        pendingIntent.cancel();
+        AlarmManager alarmManager = getAlarmManager(context);
+        alarmManager.cancel(pendingIntent);
+    }
+
     public void scheduleNotification(Context context, Task task) {
-        Intent intent = new Intent(context, NotificationReceiver.class);
-        intent.putExtra(Constants.TASK, task);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context,
-                Math.toIntExact((Constants.NOTIFICATION_ID + task.getId())),
-                intent,
-                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
-        );
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setInexactRepeating(
+        PendingIntent pendingIntent = getAlarmManagerPendingIntent(context, task);
+        AlarmManager alarmManager = getAlarmManager(context);
+        alarmManager.set(
                 AlarmManager.RTC_WAKEUP,
                 getTime(task),
-                AlarmManager.INTERVAL_DAY,
                 pendingIntent
         );
+    }
+
+    private PendingIntent getAlarmManagerPendingIntent(Context context, Task task) {
+        Intent intent = new Intent(context, NotificationReceiver.class);
+        intent.putExtra(Constants.TASK, task);
+        PendingIntent pendingIntent = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            pendingIntent = PendingIntent.getBroadcast(
+                    context,
+                    Math.toIntExact((Constants.NOTIFICATION_ID + task.getId())),
+                    intent,
+                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
+            );
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            pendingIntent = PendingIntent.getBroadcast(
+                    context,
+                    Math.toIntExact((Constants.NOTIFICATION_ID + task.getId())),
+                    intent,
+                    PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
+            );
+        }
+        return pendingIntent;
     }
 
     private long getTime(Task task) {
@@ -52,7 +76,7 @@ public class NotificationServiceManager {
         PersianDate persianDate = new PersianDate();
         int[] gregorian = persianDate.jalali_to_gregorian(year, month, day);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(gregorian[0], gregorian[1] - 1, gregorian[2], 0, 0);
+        calendar.set(gregorian[0], gregorian[1] - 1, gregorian[2], 6, 0);
         return calendar.getTimeInMillis();
     }
 
@@ -85,6 +109,10 @@ public class NotificationServiceManager {
             manager.createNotificationChannel(channel);
             channel.setDescription(channelDescription);
         }
+    }
+
+    private AlarmManager getAlarmManager(Context context) {
+        return (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     }
 
     private NotificationManager getNotificationManager(Context context) {

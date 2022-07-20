@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     ActivityMainBinding binding;
     MainActivityPresenter presenter;
+    NotificationServiceManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         TaskDao taskDao = AppDatabase.getAppDatabase(this).getTaskDao();
+        notificationManager = new NotificationServiceManager();
         TaskAdapter taskAdapter = new TaskAdapter(this);
         presenter = new MainActivityPresenter(this, taskDao, taskAdapter);
         if (presenter.readTasks().size() <= 0) {
@@ -137,8 +139,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     @Override
     public void scheduleTaskNotification(Task task) {
-        NotificationServiceManager notificationManager = new NotificationServiceManager();
         notificationManager.scheduleNotification(this, task);
+    }
+
+    @Override
+    public void cancelTaskNotification(Task task) {
+        notificationManager.cancelNotification(this, task);
     }
 
     @Override

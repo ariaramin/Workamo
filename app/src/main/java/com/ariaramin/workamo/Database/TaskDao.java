@@ -13,7 +13,7 @@ public interface TaskDao {
     @Insert()
     long addTask(Task task);
 
-    @Query("SELECT * FROM task_tbl")
+    @Query("SELECT * FROM task_tbl ORDER BY date DESC")
     List<Task> getTasks();
 
     @Update

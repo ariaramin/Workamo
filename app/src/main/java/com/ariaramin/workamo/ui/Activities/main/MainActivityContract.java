@@ -20,6 +20,8 @@ public interface MainActivityContract {
 
         void scheduleTaskNotification(Task task);
 
+        void cancelTaskNotification(Task task);
+
         void showBackgroundImage();
 
         void hideBackgroundImage();
