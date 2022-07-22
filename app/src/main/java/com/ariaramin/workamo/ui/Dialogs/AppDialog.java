@@ -39,7 +39,7 @@ public class AppDialog extends DialogFragment {
         if (bundle != null) {
             STATUS_ID = bundle.getInt(Constants.STATUS);
         }
-        if (STATUS_ID == 2) {
+        if (STATUS_ID == Constants.EDIT_TASK_DIALOG_ID) {
             task = getArguments().getParcelable(Constants.TASK);
         }
     }
@@ -51,13 +51,13 @@ public class AppDialog extends DialogFragment {
         binding = AppDialogBinding.inflate(getLayoutInflater());
         binding.dateChip.setOnClickListener(v -> showDatePicker());
         binding.priorityChip.setOnClickListener(v -> showPopupMenu());
-        if (STATUS_ID == 2 && task != null) {
+        if (STATUS_ID == Constants.EDIT_TASK_DIALOG_ID && task != null) {
             setTaskInfo();
         }
         setCurrentDate();
         binding.saveTaskButton.setOnClickListener(view -> {
             if (binding.titleDialogEditText.length() > 0) {
-                if (STATUS_ID == 2) {
+                if (STATUS_ID == Constants.EDIT_TASK_DIALOG_ID) {
                     task.setTitle(binding.titleDialogEditText.getText().toString());
                     task.setCompleted(false);
                     task.setDate(binding.dateChip.getTag().toString());
@@ -127,7 +127,7 @@ public class AppDialog extends DialogFragment {
     }
 
     private void setCurrentDate() {
-        if (STATUS_ID != 2) {
+        if (STATUS_ID != Constants.EDIT_TASK_DIALOG_ID) {
             PersianDate persianDate = new PersianDate();
             PersianDateFormat dateFormat = new PersianDateFormat("Y-m-j");
             PersianDateFormat longDateFormat = new PersianDateFormat("j F Y", PersianDateFormat.PersianDateNumberCharacter.FARSI);
@@ -173,6 +173,16 @@ public class AppDialog extends DialogFragment {
 
                     }
                 });
+        picker.setInitDate(getTaskDate()[0], getTaskDate()[1], getTaskDate()[2]);
         picker.show();
+    }
+
+    private int[] getTaskDate() {
+        String date = binding.dateChip.getTag().toString();
+        String[] dateList = date.split("-");
+        int year = Integer.parseInt(dateList[0]);
+        int month = Integer.parseInt(dateList[1]);
+        int day = Integer.parseInt(dateList[2]);
+        return new int[]{year, month, day};
     }
 }

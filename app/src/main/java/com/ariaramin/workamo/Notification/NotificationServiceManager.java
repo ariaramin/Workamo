@@ -76,7 +76,7 @@ public class NotificationServiceManager {
         PersianDate persianDate = new PersianDate();
         int[] gregorian = persianDate.jalali_to_gregorian(year, month, day);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(gregorian[0], gregorian[1] - 1, gregorian[2], 6, 0);
+        calendar.set(gregorian[0], gregorian[1] - 1, gregorian[2]);
         return calendar.getTimeInMillis();
     }
 
